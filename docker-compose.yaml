@@ -1,0 +1,12 @@
+version: "3"
+services:
+  app:
+    build:
+      context: .
+    tty: true
+    init: true
+    working_dir: /app/nextjs-middleware
+    volumes:
+      - ./src:/app/nextjs-middleware
+    ports:
+      - "3999:3999"
