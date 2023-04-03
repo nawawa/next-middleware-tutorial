@@ -1,27 +1,31 @@
 import type { GetStaticPaths, GetStaticProps, NextPage } from "next";
 
 type Props = {
-  RenderType: string;
+  slug: string[] | undefined;
 };
 
-export const getStaticPaths: GetStaticPaths = async () =>  {
+export const getStaticPaths: GetStaticPaths = async () => {
   return {
     paths: [],
-    fallback: "blocking"
-  }
-}
-
-export const getStaticProps: GetStaticProps = async (req) => {
-  console.log(req.params?.slug)
-  return {
-    props: { RenderType: "SSG" },
+    fallback: "blocking",
   };
 };
 
-const Test: NextPage<Props> = ({ RenderType }) => {
+export const getStaticProps: GetStaticProps = async (req) => {
+  const slug = req.params?.slug;
+  return {
+    props: { slug },
+  };
+};
+
+const Test: NextPage<Props> = ({ slug }) => {
   return (
     <div>
-      <p>{RenderType}</p>
+      {slug &&
+        slug.map((s) => {
+          return <p key={s}>{s}</p>;
+        })
+      }
     </div>
   );
 };
